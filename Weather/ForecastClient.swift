@@ -145,11 +145,6 @@ extension ForecastClient : Parser {
                     break
             }
             
-            /*let forecastTemperature = convertTemperture(country, openWeatherMapDegrees: forecastTempDegrees)
-            let maxTemp = convertTemperture(country, openWeatherMapDegrees: forecastMaxTemp)
-            let minTemp = convertTemperture(country, openWeatherMapDegrees: forecastMinTemp)
-            let date = NSDate(timeIntervalSince1970: rawDateTime)
-            let forecastTimeString = date.shortTime()*/
             let weatherIcon = WeatherIcon(condition: forecastCondition, iconString: forecastIcon)
             
             
