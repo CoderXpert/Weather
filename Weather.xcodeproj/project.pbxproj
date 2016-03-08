@@ -24,6 +24,7 @@
 		84B2E9CE1C8DF1560042741B /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9CC1C8DF1560042741B /* SwiftyJSON.swift */; };
 		84B2E9D31C8EF02A0042741B /* ForecastType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9D21C8EF02A0042741B /* ForecastType.swift */; };
 		84B2E9D71C8EF1090042741B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9D61C8EF1090042741B /* DateExtension.swift */; };
+		84B2E9D91C8EF9460042741B /* weathericons-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84B2E9D81C8EF9460042741B /* weathericons-regular-webfont.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		84B2E9CC1C8DF1560042741B /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		84B2E9D21C8EF02A0042741B /* ForecastType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastType.swift; sourceTree = "<group>"; };
 		84B2E9D61C8EF1090042741B /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		84B2E9D81C8EF9460042741B /* weathericons-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "weathericons-regular-webfont.ttf"; path = "../weathericons-regular-webfont.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				84B2E98E1C8DD41D0042741B /* Assets.xcassets */,
 				84B2E9901C8DD41D0042741B /* LaunchScreen.storyboard */,
 				84B2E9931C8DD41D0042741B /* Info.plist */,
+				84B2E9D81C8EF9460042741B /* weathericons-regular-webfont.ttf */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				84B2E9921C8DD41D0042741B /* LaunchScreen.storyboard in Resources */,
 				84B2E98F1C8DD41D0042741B /* Assets.xcassets in Resources */,
 				84B2E98D1C8DD41D0042741B /* Main.storyboard in Resources */,
+				84B2E9D91C8EF9460042741B /* weathericons-regular-webfont.ttf in Resources */,
 				84B2E9CA1C8DF1040042741B /* data.jSON in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
