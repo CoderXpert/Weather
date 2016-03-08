@@ -9,17 +9,71 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var updateDateTimeLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var weatherConditionIcon: UILabel!
+    @IBOutlet weak var currentTempLabel: UILabel!
+    @IBOutlet weak var futureForecastScrollView: UIScrollView!
+    @IBOutlet weak var todayForecastScrollView: UIScrollView!
+    var viewModel:CurrentWeatherForecastViewModelType?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.spinner.startAnimating()
+        
+        viewModel = CurrentWeatherForecastViewModel()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateCurrentWeatherUI", name: ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: nil)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func clearCurrentWeatherUI(){
+        self.locationLabel.text = ""
+        self.updateDateTimeLabel.text = ""
+        self.weatherConditionIcon.text = ""
+        self.currentTempLabel.text = ""
+    }
+    private func clearForecastUI(){
+        for v in self.todayForecastScrollView.subviews {
+            v.removeFromSuperview()
+        }
+        for v in self.futureForecastScrollView.subviews {
+            v.removeFromSuperview()
+        }
+    }
+    func udpateCurrentWeatherUI() {
+        self.spinner.stopAnimating()
+        locationLabel.text = viewModel!.currentLocationName
+        updateDateTimeLabel.text = viewModel!.lastUpdateDateAndTimeString
+        currentTempLabel.text = viewModel!.currentTemperatureString
+        weatherConditionIcon.text = viewModel!.currentWeatherConditionIconText
     }
 
-
+    func udpateForecastUI() {
+        clearForecastUI()
+        var xPos = 0
+        for index in 0..<viewModel!.totalNumberOfTodaysForecasts {
+            let frame = CGRectMake(CGFloat(xPos), 0.0, 80.0, 114.0)
+            let fv = ForecastView(frame: frame)
+            fv.temperature = viewModel?.todayForecastTemperatureStringForIndex(index)
+            fv.icon = viewModel?.todayForecastWeatherConditionIconTextForIndex(index)
+            fv.time = viewModel?.todayForecastShortDateTimeStringForIndex(index)
+            self.todayForecastScrollView.addSubview(fv)
+            xPos += 80
+        }
+        self.todayForecastScrollView.contentSize = CGSizeMake(CGFloat(xPos), 114.0)
+        
+        xPos = 0
+        for index in 0..<viewModel!.totalNumberOfFutureForecastsExcludingToday {
+            let frame = CGRectMake(CGFloat(xPos), 0.0, 80.0, 114.0)
+            let fv = ForecastView(frame: frame)
+            fv.temperature = viewModel?.futureForecastTemperatureStringForIndex(index)
+            fv.icon = viewModel?.futureForecastWeatherConditionIconTextForIndex(index)
+            fv.time = viewModel?.futureForecastShortDateTimeStringForIndex(index)
+            xPos += 80
+            self.futureForecastScrollView.addSubview(fv)
+        }
+        self.futureForecastScrollView.contentSize = CGSizeMake(CGFloat(xPos), 114.0)
+    }
 }
 
