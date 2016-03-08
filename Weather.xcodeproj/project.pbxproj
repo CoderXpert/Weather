@@ -22,6 +22,8 @@
 		84B2E9CA1C8DF1040042741B /* data.jSON in Resources */ = {isa = PBXBuildFile; fileRef = 84B2E9C91C8DF1040042741B /* data.jSON */; };
 		84B2E9CD1C8DF1560042741B /* WeatherIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9CB1C8DF1560042741B /* WeatherIcon.swift */; };
 		84B2E9CE1C8DF1560042741B /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9CC1C8DF1560042741B /* SwiftyJSON.swift */; };
+		84B2E9D31C8EF02A0042741B /* ForecastType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9D21C8EF02A0042741B /* ForecastType.swift */; };
+		84B2E9D71C8EF1090042741B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9D61C8EF1090042741B /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		84B2E9C91C8DF1040042741B /* data.jSON */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.jSON; sourceTree = "<group>"; };
 		84B2E9CB1C8DF1560042741B /* WeatherIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherIcon.swift; sourceTree = "<group>"; };
 		84B2E9CC1C8DF1560042741B /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		84B2E9D21C8EF02A0042741B /* ForecastType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastType.swift; sourceTree = "<group>"; };
+		84B2E9D61C8EF1090042741B /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +154,9 @@
 		84B2E9B51C8DD4250042741B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				84B2E9C01C8DD6780042741B /* Parser.swift */,
+				84B2E9D41C8EF0AD0042741B /* Parser */,
+				84B2E9CF1C8EF0020042741B /* Model */,
+				84B2E9D51C8EF0BB0042741B /* ViewModel */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -181,6 +187,7 @@
 		84B2E9B91C8DD44A0042741B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				84B2E9D61C8EF1090042741B /* DateExtension.swift */,
 				84B2E9CB1C8DF1560042741B /* WeatherIcon.swift */,
 				84B2E9CC1C8DF1560042741B /* SwiftyJSON.swift */,
 			);
@@ -211,6 +218,29 @@
 				84B2E9C91C8DF1040042741B /* data.jSON */,
 			);
 			name = Networking;
+			sourceTree = "<group>";
+		};
+		84B2E9CF1C8EF0020042741B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84B2E9D21C8EF02A0042741B /* ForecastType.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		84B2E9D41C8EF0AD0042741B /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				84B2E9C01C8DD6780042741B /* Parser.swift */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		84B2E9D51C8EF0BB0042741B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,11 +375,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B2E9D31C8EF02A0042741B /* ForecastType.swift in Sources */,
 				84B2E98A1C8DD41D0042741B /* ViewController.swift in Sources */,
 				84B2E9C61C8DD9A10042741B /* ForecastClient.swift in Sources */,
 				84B2E9BF1C8DD5D50042741B /* WeatherError.swift in Sources */,
 				84B2E9C11C8DD6780042741B /* Parser.swift in Sources */,
 				84B2E9BC1C8DD49F0042741B /* Forecast.swift in Sources */,
+				84B2E9D71C8EF1090042741B /* DateExtension.swift in Sources */,
 				84B2E9CD1C8DF1560042741B /* WeatherIcon.swift in Sources */,
 				84B2E9CE1C8DF1560042741B /* SwiftyJSON.swift in Sources */,
 				84B2E9C41C8DD7370042741B /* HttpClient.swift in Sources */,
@@ -580,6 +612,7 @@
 				84B2E9AE1C8DD41E0042741B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84B2E9AF1C8DD41E0042741B /* Build configuration list for PBXNativeTarget "WeatherTests" */ = {
 			isa = XCConfigurationList;
@@ -588,6 +621,7 @@
 				84B2E9B11C8DD41E0042741B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84B2E9B21C8DD41E0042741B /* Build configuration list for PBXNativeTarget "WeatherUITests" */ = {
 			isa = XCConfigurationList;
@@ -596,6 +630,7 @@
 				84B2E9B41C8DD41E0042741B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
