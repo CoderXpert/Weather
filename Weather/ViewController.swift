@@ -16,17 +16,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var currentTempLabel: UILabel!
     @IBOutlet weak var futureForecastScrollView: UIScrollView!
     @IBOutlet weak var todayForecastScrollView: UIScrollView!
+    @IBOutlet weak var errorTextLabel: UILabel!
+    @IBOutlet weak var errorLabel: NSLayoutConstraint!
+    
     var viewModel:CurrentWeatherForecastViewModelType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.spinner.startAnimating()
-        
+        registerForViewModelNotificaitons()
+    }
+    private func registerForViewModelNotificaitons() {
         viewModel = CurrentWeatherForecastViewModel()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateCurrentWeatherUI", name: ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoForecastInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoCurrentWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onStartLoadingWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue, object: nil)
     }
-
     private func clearCurrentWeatherUI(){
         self.locationLabel.text = ""
         self.updateDateTimeLabel.text = ""
@@ -41,8 +47,22 @@ class ViewController: UIViewController {
             v.removeFromSuperview()
         }
     }
+    func onStartLoadingWeatherInfo(){
+        self.clearCurrentWeatherUI()
+        self.errorTextLabel.hidden = true
+        self.spinner.startAnimating()
+    }
+    func onNoCurrentWeatherInfo(){
+        self.spinner.stopAnimating()
+        clearCurrentWeatherUI()
+        self.errorTextLabel.hidden = false
+    }
+    func onNoForecastInfo(){
+        clearForecastUI()
+    }
     func udpateCurrentWeatherUI() {
         self.spinner.stopAnimating()
+        self.errorTextLabel.hidden = true
         locationLabel.text = viewModel!.currentLocationName
         updateDateTimeLabel.text = viewModel!.lastUpdateDateAndTimeString
         currentTempLabel.text = viewModel!.currentTemperatureString

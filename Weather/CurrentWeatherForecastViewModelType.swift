@@ -11,6 +11,10 @@ import Foundation
 enum ForecastViewModelNotificaitons : String {
     case ViewModelGotNewForecastData = "viewModelGotNewForecastData"
     case ViewModelGotNewCurrentWeatherData = "viewModelGotNewCurrentWeatherData"
+    case ViewModelGotAnErrorWhileFetchingCurrentWeather = "viewModelFetchCurrentWeather"
+    case ViewModelGotNoForecasts = "viewModelGotNoForecasts"
+    case ViewModelGotNoCurrentWeatherData = "viewModelGotNoCurrentWeatherData"
+    case ViewModelStartLoadingCurrentWeatherInfo = "viewModelStartLoadingCurrentWeatherInfo"
 }
 protocol CurrentWeatherForecastViewModelType {
     //: Current Weather

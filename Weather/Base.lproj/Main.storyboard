@@ -77,18 +77,26 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NjY-Fs-jf0">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry! can not fetch weather info at the moment." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PoE-hP-mea">
+                                <rect key="frame" x="20" y="289" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0p7-YM-BNk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0QK-XD-020"/>
                             <constraint firstItem="xeW-IH-tmi" firstAttribute="top" secondItem="n3N-sA-13o" secondAttribute="bottom" constant="8" id="3G0-ap-pc1"/>
                             <constraint firstItem="vjS-HP-0og" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="43Q-b5-Uq6"/>
+                            <constraint firstItem="PoE-hP-mea" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4KR-VF-nhT"/>
                             <constraint firstItem="n3N-sA-13o" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="5O9-4g-YOB"/>
                             <constraint firstItem="wXU-iU-bVC" firstAttribute="top" secondItem="vjS-HP-0og" secondAttribute="bottom" constant="8" id="9hq-Nb-MQ3"/>
                             <constraint firstItem="wXU-iU-bVC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="A78-mL-7dW"/>
                             <constraint firstItem="n3N-sA-13o" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Ewe-4W-7El"/>
                             <constraint firstAttribute="trailing" secondItem="0p7-YM-BNk" secondAttribute="trailing" id="GSH-bp-fR1"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="W3q-Wf-2tm" secondAttribute="bottom" id="JVQ-Gd-69x"/>
+                            <constraint firstItem="PoE-hP-mea" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Jqv-jL-1yp"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Uk4-US-dN7" secondAttribute="bottom" id="KPj-hF-BlL"/>
                             <constraint firstItem="xeW-IH-tmi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="LkH-JS-MGg"/>
                             <constraint firstItem="W3q-Wf-2tm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Mby-nE-tny"/>
@@ -96,8 +104,10 @@
                             <constraint firstAttribute="trailing" secondItem="Uk4-US-dN7" secondAttribute="trailing" id="QOT-dk-WEf"/>
                             <constraint firstItem="wXU-iU-bVC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RXa-CN-NHy"/>
                             <constraint firstItem="xeW-IH-tmi" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="U4l-RU-l93"/>
+                            <constraint firstItem="PoE-hP-mea" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="gBh-Hw-jAb"/>
                             <constraint firstItem="Uk4-US-dN7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="n4M-Tp-gNc"/>
                             <constraint firstItem="n3N-sA-13o" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="nTf-Ra-NP8"/>
+                            <constraint firstItem="PoE-hP-mea" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pa6-6J-cML"/>
                             <constraint firstItem="NjY-Fs-jf0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="q7C-oK-Xh7"/>
                             <constraint firstItem="W3q-Wf-2tm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qwA-j9-rLh"/>
                             <constraint firstAttribute="trailing" secondItem="W3q-Wf-2tm" secondAttribute="trailing" id="u7I-KT-7DX"/>
@@ -107,6 +117,8 @@
                     </view>
                     <connections>
                         <outlet property="currentTempLabel" destination="vjS-HP-0og" id="k7Q-C9-Nbd"/>
+                        <outlet property="errorLabel" destination="gBh-Hw-jAb" id="6wy-fe-54k"/>
+                        <outlet property="errorTextLabel" destination="PoE-hP-mea" id="8Pz-M0-5pk"/>
                         <outlet property="futureForecastScrollView" destination="Uk4-US-dN7" id="pYq-wL-cDC"/>
                         <outlet property="locationLabel" destination="n3N-sA-13o" id="vH2-RV-9AW"/>
                         <outlet property="spinner" destination="NjY-Fs-jf0" id="Gak-1E-WUx"/>

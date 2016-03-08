@@ -26,34 +26,42 @@ class CurrentWeatherForecastViewModel {
         locationManager.delegate = self
         locationManager.requestLocation()
     }
+    private func postNotification(notif:String){
+        dispatch_async(dispatch_get_main_queue(), {
+            NSNotificationCenter.defaultCenter().postNotificationName(notif, object: .None)
+        })
+    }
     private func getCurrentWeatherAndForecastData() {
         guard let loc = location else { return }
+        
+        self.postNotification(ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue)
+        
         forecastClient.getCurrentWeatherWithLocation(loc) { (forecast, error) in
             guard error == .None else {
                 //Post error notification
+                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue)
                 return
             }
             guard let fc = forecast else {
                 // Post no forecast notification
+                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue)
                 return
             }
             self.forecast = fc
-            dispatch_async(dispatch_get_main_queue(), {
-                 NSNotificationCenter.defaultCenter().postNotificationName(ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: .None)
-            })
+            self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue)
            
         }
         forecastClient.getForecastsWithLocation(loc) { (forecasts, error) in
             guard error == .None else {
+                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
                 return
             }
             guard let fcs = forecasts else {
+                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
                 return
             }
             self.forecastsItems = fcs
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                NSNotificationCenter.defaultCenter().postNotificationName(ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: .None)
-            })
+            self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue)
         }
     }
 }
