@@ -114,6 +114,61 @@ extension ForecastClient : Parser {
      * @return void
      */
     func parseData(data: NSData?, completionHandler: ParserCompletionHandler) {
+        guard let parseableData = data else {
+            completionHandler(.None,Error.NoDataFound)
+            return
+        }
+        
+        let json = JSON(data: parseableData)
+        
+        // Get temperature, location and icon and check parsing error
+        guard let country = json["city"]["country"].string
+            else {
+                completionHandler(nil, Error.InvalidData)
+                return
+        }
+        
+        var forecasts: [Forecast] = []
+        // Get the first four forecasts
+        guard let count = json["list"].array?.count else {
+            completionHandler(nil,Error.InvalidData)
+            return
+        }
+        for index in 0 ..< count {
+            guard let forecastTempDegrees = json["list"][index]["main"]["temp"].double,
+                forecastMaxTemp = json["list"][index]["main"]["temp_max"].double,
+                forecastMinTemp = json["list"][index]["main"]["temp_min"].double,
+                rawDateTime = json["list"][index]["dt"].double,
+                forecastCondition = json["list"][index]["weather"][0]["id"].int,
+                forecastConditionText = json["list"][index]["weather"][0]["main"].string,
+                forecastIcon = json["list"][index]["weather"][0]["icon"].string else {
+                    break
+            }
+            
+            /*let forecastTemperature = convertTemperture(country, openWeatherMapDegrees: forecastTempDegrees)
+            let maxTemp = convertTemperture(country, openWeatherMapDegrees: forecastMaxTemp)
+            let minTemp = convertTemperture(country, openWeatherMapDegrees: forecastMinTemp)
+            let date = NSDate(timeIntervalSince1970: rawDateTime)
+            let forecastTimeString = date.shortTime()*/
+            let weatherIcon = WeatherIcon(condition: forecastCondition, iconString: forecastIcon)
+            
+            
+            let dt = NSDate(timeIntervalSince1970: rawDateTime)
+
+            let forecast = Forecast(country:country,
+                location:"",
+                date: dt, iconText:
+                weatherIcon.iconText,
+                temperature:forecastTempDegrees,
+                maxTemperature: forecastMaxTemp,
+                minTemperature: forecastMinTemp,
+                weatherConditionText: forecastConditionText)
+
+            forecasts.append(forecast)
+            
+        }
+        
+        completionHandler(forecasts as? AnyObject, .None)
         
     }
 }

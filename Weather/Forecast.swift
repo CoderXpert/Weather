@@ -9,14 +9,55 @@
 import Foundation
 
 struct Forecast : ForecastType {
+    var country:String
     var location:String
-    var time: String
     var date : NSDate
     var iconText: String
     var temperature: Double
     var maxTemperature : Double
     var minTemperature : Double
-    var weatherConditionText : String 
+    var weatherConditionText : String
+    
+    var localizedTemperatureString : String {
+        get{
+            return localizedTemperatureString(temperature)
+        }
+    }
+    var localizedMaxTemperatureString : String {
+        get{
+            return localizedTemperatureString(maxTemperature)
+        }
+    }
+    var localizedMinTemeratureString : String {
+        get{
+            return localizedTemperatureString(minTemperature)
+        }
+    }
+    /**
+     * This funcation will convert Kelvin temperature to Fahrenheit or Celsius
+     * depending on current country
+     * @param kelvinTemperture:Double to convert
+     * @return localizedString (either fahrenheit or Celsius)
+     */
+    private func localizedTemperatureString(kelvinTemp:Double) -> String{
+        var degrees : String
+        if country == "US" {
+            // Fahrenheit (K - 273.15)* 1.8000 + 32.00
+            var val = round(((kelvinTemp - 273.15) * 1.8) + 32)
+            if abs(val) == 0 {
+                val = 0
+            }
+            degrees = String(format: "%.0f",val) + "\u{f045}"
+        } else {
+            //  Celsius
+            var val = round(kelvinTemp - 273.15)
+            if abs(val) == 0 {
+                val = 0
+            }
+            degrees = String(format: "%0.f",val) + "\u{f03c}"
+        }
+        return degrees
+    }
 }
 /**
  * Here I am conditionaly extending Array, method in this extension will only be avaialble for [ForecastType]
