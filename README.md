@@ -1,4 +1,3 @@
 # Weather
-Open Weather API Client
-This app will weather forecast for current location.
-At the moment its under development.
+# Currently working on this project 
+Open Weather API Client under development.
