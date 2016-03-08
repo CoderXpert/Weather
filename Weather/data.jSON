@@ -1,0 +1,55 @@
+{
+    "city": {
+        "id": 1851632,
+        "name": "Shuzenji",
+        "coord": {
+            "lon": 138.933334,
+            "lat": 34.966671
+        },
+        "country": "JP",
+        "population": 0,
+        "sys": {
+            "population": 0
+        }
+    },
+    "cod": "200",
+    "message": 0.0033,
+    "cnt": 1,
+    "list": [
+             {
+             "dt": 1457373600,
+             "main": {
+             "temp": 281.52,
+             "temp_min": 280.697,
+             "temp_max": 281.52,
+             "pressure": 932.56,
+             "sea_level": 1029.09,
+             "grnd_level": 932.56,
+             "humidity": 100,
+             "temp_kf": 0.82
+             },
+             "weather": [
+                         {
+                         "id": 500,
+                         "main": "Rain",
+                         "description": "light rain",
+                         "icon": "10n"
+                         }
+                         ],
+             "clouds": {
+             "all": 88
+             },
+             "wind": {
+             "speed": 0.81,
+             "deg": 302.001
+             },
+             "rain": {
+             "3h": 0.22
+             },
+             "sys": {
+             "pod": "n"
+             },
+             "dt_txt": "2016-03-07 18:00:00"
+             }
+             ]
+}
