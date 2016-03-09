@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8465BB7C1C907FA400031F54 /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465BB7B1C907FA400031F54 /* ViewControllerTests.swift */; };
+		8465BB8E1C90873600031F54 /* ForecastClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465BB8D1C90873600031F54 /* ForecastClientTests.swift */; };
 		84B2E9881C8DD41D0042741B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9871C8DD41D0042741B /* AppDelegate.swift */; };
 		84B2E98A1C8DD41D0042741B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B2E9891C8DD41D0042741B /* ViewController.swift */; };
 		84B2E98D1C8DD41D0042741B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84B2E98B1C8DD41D0042741B /* Main.storyboard */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8465BB7B1C907FA400031F54 /* ViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
+		8465BB8D1C90873600031F54 /* ForecastClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastClientTests.swift; sourceTree = "<group>"; };
 		84B2E9841C8DD41D0042741B /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B2E9871C8DD41D0042741B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84B2E9891C8DD41D0042741B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 			children = (
 				84B2E99C1C8DD41E0042741B /* WeatherTests.swift */,
 				84B2E99E1C8DD41E0042741B /* Info.plist */,
+				8465BB7B1C907FA400031F54 /* ViewControllerTests.swift */,
+				8465BB8D1C90873600031F54 /* ForecastClientTests.swift */,
 			);
 			path = WeatherTests;
 			sourceTree = "<group>";
@@ -409,7 +415,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8465BB7C1C907FA400031F54 /* ViewControllerTests.swift in Sources */,
 				84B2E99D1C8DD41E0042741B /* WeatherTests.swift in Sources */,
+				8465BB8E1C90873600031F54 /* ForecastClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,10 +573,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/usr/include";
 				INFOPLIST_FILE = WeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.coderxperts.WeatherTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weather.app/Weather";
 			};
 			name = Debug;
@@ -577,10 +592,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/usr/include";
 				INFOPLIST_FILE = WeatherTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.coderxperts.WeatherTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weather.app/Weather";
 			};
 			name = Release;

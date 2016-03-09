@@ -37,7 +37,7 @@ class ForecastClient : HttpClient {
      * @return optionalURL:NSURL?
      */
     
-    private func constructURLWithParams(params:[String:String]?, forecast:Bool) -> NSURL? {
+    func constructURLWithParams(params:[String:String]?, forecast:Bool) -> NSURL? {
         
         guard let components = NSURLComponents(string:(forecast) ? FORECAST_API_URL : WEATHER_API_URL) else {
             return nil

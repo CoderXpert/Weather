@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 }
 //: ViewModel notificaitons
 extension ViewController {
-    private func registerForViewModelNotificaitons() {
+     func registerForViewModelNotificaitons() {
         viewModel = CurrentWeatherForecastViewModel()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCurrentWeatherUI", name: ForecastViewModelNotificaitons.GotNewCurrentWeatherData.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.GotNewForecastData.rawValue, object: nil)
