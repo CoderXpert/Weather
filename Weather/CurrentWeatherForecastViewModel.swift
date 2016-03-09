@@ -17,6 +17,8 @@ class CurrentWeatherForecastViewModel {
     private let locationManager = LocationManager()
     private let forecastClient = ForecastClient()
     private var location : CLLocation?
+    private var isLoadingCurrentWeatherData : Bool = false
+    private var isLoadingForecastData : Bool = false
     
     init() {
         startLocationService()
@@ -31,11 +33,12 @@ class CurrentWeatherForecastViewModel {
             NSNotificationCenter.defaultCenter().postNotificationName(notif, object: .None)
         })
     }
-    private func getCurrentWeatherAndForecastData() {
+    private func getCurrentWeatherData (){
+        guard isLoadingCurrentWeatherData == false else { return }
         guard let loc = location else { return }
+        isLoadingCurrentWeatherData = true
         
         self.postNotification(ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue)
-        
         forecastClient.getCurrentWeatherWithLocation(loc) { (forecast, error) in
             guard error == .None else {
                 //Post error notification
@@ -47,10 +50,16 @@ class CurrentWeatherForecastViewModel {
                 self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue)
                 return
             }
+            self.isLoadingCurrentWeatherData = false
             self.forecast = fc
             self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue)
-           
         }
+    }
+    private func getForecastData() {
+        guard isLoadingForecastData == false else { return }
+        guard let loc = location else { return }
+        isLoadingForecastData = true
+        
         forecastClient.getForecastsWithLocation(loc) { (forecasts, error) in
             guard error == .None else {
                 self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
@@ -60,9 +69,16 @@ class CurrentWeatherForecastViewModel {
                 self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
                 return
             }
+            self.isLoadingForecastData = false
             self.forecastsItems = fcs
             self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue)
         }
+    }
+    private func getCurrentWeatherAndForecastData() {
+        
+        guard let _ = location else { return }
+        getCurrentWeatherData()
+        getForecastData()
     }
 }
 //: ViewModel protocol implementation
@@ -167,7 +183,7 @@ extension CurrentWeatherForecastViewModel : CurrentWeatherForecastViewModelType 
             return .None
         }
         let fc = tfcs[index]
-        return fc.date.dayAndMonth()
+        return fc.date.shortTime()
     }
     func todayForecastWeatherConditionIconTextForIndex(index:Int) -> String? {
         guard index >= 0 else { return .None }
@@ -221,6 +237,9 @@ extension CurrentWeatherForecastViewModel : CurrentWeatherForecastViewModelType 
 }
 //: Extension which will implement LocationManagerDelegate method
 extension CurrentWeatherForecastViewModel : LocationManagerDelegate {
+    
+    
+    
     func locationDidUpdate(service: LocationManager, location: CLLocation) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.location = location

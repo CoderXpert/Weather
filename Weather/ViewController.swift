@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     @IBOutlet weak var updateDateTimeLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
@@ -25,14 +26,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         registerForViewModelNotificaitons()
     }
-    private func registerForViewModelNotificaitons() {
-        viewModel = CurrentWeatherForecastViewModel()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateCurrentWeatherUI", name: ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoForecastInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoCurrentWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onStartLoadingWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue, object: nil)
-    }
     private func clearCurrentWeatherUI(){
         self.locationLabel.text = ""
         self.updateDateTimeLabel.text = ""
@@ -47,19 +40,36 @@ class ViewController: UIViewController {
             v.removeFromSuperview()
         }
     }
+}
+//: ViewModel notificaitons
+extension ViewController {
+    private func registerForViewModelNotificaitons() {
+        viewModel = CurrentWeatherForecastViewModel()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateCurrentWeatherUI", name: ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoForecastInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoCurrentWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onStartLoadingWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue, object: nil)
+    }
+    
     func onStartLoadingWeatherInfo(){
         self.clearCurrentWeatherUI()
         self.errorTextLabel.hidden = true
         self.spinner.startAnimating()
     }
+    
     func onNoCurrentWeatherInfo(){
         self.spinner.stopAnimating()
         clearCurrentWeatherUI()
         self.errorTextLabel.hidden = false
     }
+    
     func onNoForecastInfo(){
         clearForecastUI()
+        self.todayForecastScrollView.hidden = true
+        self.futureForecastScrollView.hidden = true
     }
+    
     func udpateCurrentWeatherUI() {
         self.spinner.stopAnimating()
         self.errorTextLabel.hidden = true
@@ -68,9 +78,7 @@ class ViewController: UIViewController {
         currentTempLabel.text = viewModel!.currentTemperatureString
         weatherConditionIcon.text = viewModel!.currentWeatherConditionIconText
     }
-
-    func udpateForecastUI() {
-        clearForecastUI()
+    func updateTodayForecastUI(){
         var xPos = 0
         for index in 0..<viewModel!.totalNumberOfTodaysForecasts {
             let frame = CGRectMake(CGFloat(xPos), 0.0, 80.0, 114.0)
@@ -82,8 +90,9 @@ class ViewController: UIViewController {
             xPos += 80
         }
         self.todayForecastScrollView.contentSize = CGSizeMake(CGFloat(xPos), 114.0)
-        
-        xPos = 0
+    }
+    func updateFutureForecastUI(){
+        var xPos = 0
         for index in 0..<viewModel!.totalNumberOfFutureForecastsExcludingToday {
             let frame = CGRectMake(CGFloat(xPos), 0.0, 80.0, 114.0)
             let fv = ForecastView(frame: frame)
@@ -95,5 +104,11 @@ class ViewController: UIViewController {
         }
         self.futureForecastScrollView.contentSize = CGSizeMake(CGFloat(xPos), 114.0)
     }
+    func udpateForecastUI() {
+        clearForecastUI()
+        self.todayForecastScrollView.hidden = false
+        self.futureForecastScrollView.hidden = false
+        updateTodayForecastUI()
+        updateFutureForecastUI()
+    }
 }
-
