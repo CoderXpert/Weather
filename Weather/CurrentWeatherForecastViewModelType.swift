@@ -9,12 +9,12 @@
 import Foundation
 //: Notificaitons
 enum ForecastViewModelNotificaitons : String {
-    case ViewModelGotNewForecastData = "viewModelGotNewForecastData"
-    case ViewModelGotNewCurrentWeatherData = "viewModelGotNewCurrentWeatherData"
-    case ViewModelGotAnErrorWhileFetchingCurrentWeather = "viewModelFetchCurrentWeather"
-    case ViewModelGotNoForecasts = "viewModelGotNoForecasts"
-    case ViewModelGotNoCurrentWeatherData = "viewModelGotNoCurrentWeatherData"
-    case ViewModelStartLoadingCurrentWeatherInfo = "viewModelStartLoadingCurrentWeatherInfo"
+    case GotNewForecastData = "viewModelGotNewForecastData"
+    case GotNewCurrentWeatherData = "viewModelGotNewCurrentWeatherData"
+    case GotAnErrorWhileFetchingCurrentWeather = "viewModelFetchCurrentWeather"
+    case GotNoForecasts = "viewModelGotNoForecasts"
+    case GotNoCurrentWeatherData = "viewModelGotNoCurrentWeatherData"
+    case StartLoadingCurrentWeatherInfo = "viewModelStartLoadingCurrentWeatherInfo"
 }
 protocol CurrentWeatherForecastViewModelType {
     //: Current Weather
@@ -38,4 +38,6 @@ protocol CurrentWeatherForecastViewModelType {
     func futureForecastShortDateTimeStringForIndex(index:Int) -> String?
     func futureForecastWeatherConditionIconTextForIndex(index:Int) -> String?
     
+    //: Update
+    func updateWeatherData()->Void
 }

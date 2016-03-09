@@ -38,21 +38,22 @@ class CurrentWeatherForecastViewModel {
         guard let loc = location else { return }
         isLoadingCurrentWeatherData = true
         
-        self.postNotification(ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue)
+        self.postNotification(ForecastViewModelNotificaitons.StartLoadingCurrentWeatherInfo.rawValue)
+        
         forecastClient.getCurrentWeatherWithLocation(loc) { (forecast, error) in
+            self.isLoadingCurrentWeatherData = false
             guard error == .None else {
                 //Post error notification
-                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue)
+                self.postNotification(ForecastViewModelNotificaitons.GotNoCurrentWeatherData.rawValue)
                 return
             }
             guard let fc = forecast else {
                 // Post no forecast notification
-                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue)
+                self.postNotification(ForecastViewModelNotificaitons.GotNoCurrentWeatherData.rawValue)
                 return
             }
-            self.isLoadingCurrentWeatherData = false
             self.forecast = fc
-            self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue)
+            self.postNotification(ForecastViewModelNotificaitons.GotNewCurrentWeatherData.rawValue)
         }
     }
     private func getForecastData() {
@@ -61,17 +62,18 @@ class CurrentWeatherForecastViewModel {
         isLoadingForecastData = true
         
         forecastClient.getForecastsWithLocation(loc) { (forecasts, error) in
+            self.isLoadingForecastData = false
             guard error == .None else {
-                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
+                self.postNotification(ForecastViewModelNotificaitons.GotNoForecasts.rawValue)
                 return
             }
             guard let fcs = forecasts else {
-                self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue)
+                self.postNotification(ForecastViewModelNotificaitons.GotNoForecasts.rawValue)
                 return
             }
             self.isLoadingForecastData = false
             self.forecastsItems = fcs
-            self.postNotification(ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue)
+            self.postNotification(ForecastViewModelNotificaitons.GotNewForecastData.rawValue)
         }
     }
     private func getCurrentWeatherAndForecastData() {
@@ -233,6 +235,9 @@ extension CurrentWeatherForecastViewModel : CurrentWeatherForecastViewModelType 
         }
         let fc = tfcs[index]
         return fc.iconText
+    }
+    func updateWeatherData() {
+        getCurrentWeatherAndForecastData()
     }
 }
 //: Extension which will implement LocationManagerDelegate method

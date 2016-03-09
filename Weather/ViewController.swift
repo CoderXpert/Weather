@@ -18,13 +18,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var futureForecastScrollView: UIScrollView!
     @IBOutlet weak var todayForecastScrollView: UIScrollView!
     @IBOutlet weak var errorTextLabel: UILabel!
-    @IBOutlet weak var errorLabel: NSLayoutConstraint!
+    @IBOutlet weak var refreshButton: UIButton!
+    
+    private var alreadyPopulatedCurrentWeather = false
+    private var alreadyPopulatedForecastInfo = false
     
     var viewModel:CurrentWeatherForecastViewModelType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForViewModelNotificaitons()
+    }
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    @IBAction func onTapRefreshButton(sender: AnyObject) {
+        viewModel!.updateWeatherData()
     }
     private func clearCurrentWeatherUI(){
         self.locationLabel.text = ""
@@ -45,14 +54,15 @@ class ViewController: UIViewController {
 extension ViewController {
     private func registerForViewModelNotificaitons() {
         viewModel = CurrentWeatherForecastViewModel()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateCurrentWeatherUI", name: ForecastViewModelNotificaitons.ViewModelGotNewCurrentWeatherData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.ViewModelGotNewForecastData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoForecastInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoForecasts.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoCurrentWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelGotNoCurrentWeatherData.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onStartLoadingWeatherInfo", name: ForecastViewModelNotificaitons.ViewModelStartLoadingCurrentWeatherInfo.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCurrentWeatherUI", name: ForecastViewModelNotificaitons.GotNewCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "udpateForecastUI", name: ForecastViewModelNotificaitons.GotNewForecastData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoForecastInfo", name: ForecastViewModelNotificaitons.GotNoForecasts.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onNoCurrentWeatherInfo", name: ForecastViewModelNotificaitons.GotNoCurrentWeatherData.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onStartLoadingWeatherInfo", name: ForecastViewModelNotificaitons.StartLoadingCurrentWeatherInfo.rawValue, object: nil)
     }
     
     func onStartLoadingWeatherInfo(){
+        self.refreshButton.hidden = true
         self.clearCurrentWeatherUI()
         self.errorTextLabel.hidden = true
         self.spinner.startAnimating()
@@ -60,23 +70,33 @@ extension ViewController {
     
     func onNoCurrentWeatherInfo(){
         self.spinner.stopAnimating()
-        clearCurrentWeatherUI()
-        self.errorTextLabel.hidden = false
+        self.refreshButton.hidden = false
+        if !alreadyPopulatedCurrentWeather {
+            clearCurrentWeatherUI()
+            self.errorTextLabel.hidden = false
+        }
+        else {
+            updateCurrentWeatherUI()
+        }
     }
     
     func onNoForecastInfo(){
-        clearForecastUI()
-        self.todayForecastScrollView.hidden = true
-        self.futureForecastScrollView.hidden = true
+        if !alreadyPopulatedForecastInfo {
+            clearForecastUI()
+            self.todayForecastScrollView.hidden = true
+            self.futureForecastScrollView.hidden = true
+        }
     }
     
-    func udpateCurrentWeatherUI() {
+    func updateCurrentWeatherUI() {
         self.spinner.stopAnimating()
+        self.refreshButton.hidden = false
         self.errorTextLabel.hidden = true
         locationLabel.text = viewModel!.currentLocationName
         updateDateTimeLabel.text = viewModel!.lastUpdateDateAndTimeString
         currentTempLabel.text = viewModel!.currentTemperatureString
         weatherConditionIcon.text = viewModel!.currentWeatherConditionIconText
+        alreadyPopulatedCurrentWeather = true
     }
     func updateTodayForecastUI(){
         var xPos = 0
@@ -110,5 +130,6 @@ extension ViewController {
         self.futureForecastScrollView.hidden = false
         updateTodayForecastUI()
         updateFutureForecastUI()
+        alreadyPopulatedForecastInfo = true
     }
 }
